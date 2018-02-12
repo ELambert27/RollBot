@@ -1,0 +1,13 @@
+
+
+add 4d6dl command as well
+
+sanitize input 
+[specific killers: 'dd', huge number of dice (stack overflow)]
+['d20' gives an 'undefined' for the roll, should just assume it's rolling 1d20]
+
+base everything off of regular expression matches
+
+Add error handling so that you can catch exceptions and keep it alive
+
+Add "Critical Hit" or "Critical Miss" text on a 1d20 + X roll of 20 or 1, respectively
