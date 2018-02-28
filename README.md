@@ -8,3 +8,5 @@ If you want to copy and use your own rollbot, copy the files, add a file called 
 		"token": "YOUR_TOKEN_HERE"
 	}
 I'd recommend also following the instructions at this link ( https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token ) to get starting with creating a bot account and running the bot.
+
+npm install woor/discord.io#gateway_v6 --save

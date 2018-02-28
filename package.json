@@ -1,7 +1,7 @@
 {
   "name": "rollbot",
-  "version": "1.0.0",
-  "description": "My own Discord bot",
+  "version": "1.0.1",
+  "description": "Discord bot for rolling dice, like for D&D",
   "main": "bot.js",
   "private": true,
   "author": "JLambert",

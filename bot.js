@@ -29,6 +29,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	switch(cmd) {
             // /roll
             case 'roll':
+		var error = false;	//represents whether we've come across an error in our processing of the file so far
 		if (remainder.length > 0) {
 			//first, interpret what the message is saying
 			var roll = 0;		//the numerical result of the dice being rolled
@@ -111,38 +112,64 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 						}
 						else if(remainder.substring(0, 1) == 'd' || remainder.substring(0, 1) == 'D')
 						{
-							var dieSize = remainder.substring(1).match(/[1234567890]+/);
-							remainder = remainder.substring(dieSize[0].length + 2);
-							dieSize = parseInt(dieSize);
-							var roll1 = Math.ceil(Math.random() * dieSize);
-							var roll2 = Math.ceil(Math.random() * dieSize);
-							bot.sendMessage({
-        	            					to: channelID,
-                	    					message: "(rolling disadvantage)"
-						                });
-							var temp = Math.min(roll1, roll2);
-							if(negation) {
-								roll = roll - temp;
-								message = message + " - " + temp;
+							if(!remainder.substring(1,2).match(/[1234567890]/)) //sanitize against non-numerical followups 
+							{
+								var ddletteroutput = "incorrect input: d" + remainder.substring(0);
+								bot.sendMessage({
+									to: channelID,
+									message: ddletteroutput
+								});
+								error = true;
+								remainder = remainder.substring(1);
 							}
-							else {
-								roll = roll + temp;
-								message = message + " + " + temp;
+							else
+							{
+								var dieSize = remainder.substring(1).match(/[1234567890]+/);
+								remainder = remainder.substring(dieSize[0].length + 2);
+								dieSize = parseInt(dieSize);
+								var roll1 = Math.ceil(Math.random() * dieSize);
+								var roll2 = Math.ceil(Math.random() * dieSize);
+								bot.sendMessage({
+        	            						to: channelID,
+                	    						message: "(rolling disadvantage)"
+						                	});
+								var temp = Math.min(roll1, roll2);
+								if(negation) {
+									roll = roll - temp;
+									message = message + " - " + temp;
+								}
+								else {
+									roll = roll + temp;
+									message = message + " + " + temp;
+								}
 							}
 						}
 						else //remainder.substring(0,1) != 'd' or 'D' or ' ', so it should be a number hopefully
 						{
-							var dieSize = remainder.substring(1).match(/[1234567890]+/);
-							remainder = remainder.substring(dieSize[0].length + 1);
-							dieSize = parseInt(dieSize);
-							var tempRoll = Math.ceil(Math.random() * dieSize);
-							if(negation) {
-								roll = roll - tempRoll;
-								message = message + " - " + temp;
+							if(!remainder.substring(0,1).match(/[1234567890]/)) //sanitize against non-numerical followups 
+							{
+								var dletteroutput = "incorrect input: d" + remainder.substring(0);
+								bot.sendMessage({
+									to: channelID,
+									message: dletteroutput
+								});
+								error = true;
+								remainder = remainder.substring(1);
 							}
-							else {
-								roll = roll + tempRoll;
-								message = message + " + " + temp;
+							else
+							{
+								var dieSize = remainder.match(/[1234567890]+/);
+								remainder = remainder.substring(dieSize[0].length + 1);
+								dieSize = parseInt(dieSize);
+								var tempRoll = Math.ceil(Math.random() * dieSize);
+								if(negation) {
+									roll = roll - tempRoll;
+									message = message + " - " + tempRoll;
+								}
+								else {
+									roll = roll + tempRoll;
+									message = message + " + " + tempRoll;
+								}
 							}
 						}
 						break;
@@ -173,23 +200,36 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 						}
 						else if(remainder.substring(0, 1) == 'd' || remainder.substring(0, 1) == 'D')
 						{
-							var dieSize = remainder.substring(1).match(/[1234567890]+/);
-							remainder = remainder.substring(dieSize[0].length + 2);
-							dieSize = parseInt(dieSize);
-							var roll1 = Math.ceil(Math.random() * dieSize);
-							var roll2 = Math.ceil(Math.random() * dieSize);
-							bot.sendMessage({
-        	            					to: channelID,
-                	    					message: "(rolling advantage)"
-						                });
-							var temp = Math.max(roll1, roll2);
-							if(negation) {
-								roll = roll - temp;
-								message = message + " - " + temp;
+							if(!remainder.substring(0,1).match(/[1234567890]/)) //sanitize against non-numerical followups 
+							{
+								var adletteroutput = "incorrect input: a" + remainder.substring(0);
+								bot.sendMessage({
+									to: channelID,
+									message: adletteroutput
+								});
+								error = true;
+								remainder = remainder.substring(1);
 							}
-							else {
-								roll = roll + temp;
-								message = message + " + " + temp;
+							else
+							{
+								var dieSize = remainder.substring(1).match(/[1234567890]+/);
+								remainder = remainder.substring(dieSize[0].length + 2);
+								dieSize = parseInt(dieSize);
+								var roll1 = Math.ceil(Math.random() * dieSize);
+								var roll2 = Math.ceil(Math.random() * dieSize);
+								bot.sendMessage({
+        	            						to: channelID,
+                	    						message: "(rolling advantage)"
+						                	});
+								var temp = Math.max(roll1, roll2);
+								if(negation) {
+									roll = roll - temp;
+									message = message + " - " + temp;
+								}
+								else {
+									roll = roll + temp;
+									message = message + " + " + temp;
+								}
 							}
 						}
 						break;
@@ -259,10 +299,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 			}
 
 			//then, we do it
-			bot.sendMessage({
-			    to: channelID,
-			    message: roll + " -- " + message 	
-			});
+			if(!error)
+			{
+				bot.sendMessage({
+				    to: channelID,
+				    message: roll + " -- " + message 	
+				});
+			}
 		}
 		else { //remainder.length <= 0
 			var randomNumber = Math.ceil(Math.random() * 20);
