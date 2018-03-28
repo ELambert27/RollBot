@@ -5,6 +5,7 @@ add 4d6dl command as well
 sanitize input 
 [specific killers: 'dd' or any nonnumeric input, huge number of dice (stack overflow)]
 ['d20' gives an 'undefined' for the roll, should just assume it's rolling 1d20]
+['/roll 1ddab' or other roll 1dothertext]
 
 base everything off of regular expression matches
 
