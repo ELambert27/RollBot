@@ -37,6 +37,48 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 			var badInput = false; 	//becomes true in the case of unrecognized inputs
 			var negation = false; 	//represents whether what we're bringing in next should be subtracted from the result
 
+			if(remainder.substring(1, 6) == 'stats')
+			{
+				var messageToSend = "Stats:\n";
+				for(int i = 0; i < 6; i++)
+				{
+					var roll1 = Math.ceil(Math.random() * 6);
+					var roll2 = Math.ceil(Math.random() * 6);
+					var roll3 = Math.ceil(Math.random() * 6);
+					var roll4 = Math.ceil(Math.random() * 6);
+					var messageToSend;
+					if(i == 0) {messageToSend += "Str:";}
+					else if(i == 1) {messageToSend += "Dex:";}
+					else if(i == 2) {messageToSend += "Con:";}
+					else if(i == 3) {messageToSend += "Int:";}
+					else if(i == 4) {messageToSend += "Wis:";}
+					else if(i == 5) {messageToSend += "Cha:";}
+					if(roll1 < roll2 && roll1 < roll3 && roll1 < roll4)
+					{
+						var statTotal = roll2 + roll3 + roll4;
+					}
+					if(roll2 < roll1 && roll2 < roll3 && roll2 < roll4)
+					{
+						var statTotal = roll1 + roll3 + roll4;
+					}
+					if(roll3 < roll2 && roll3 < roll1 && roll3 < roll4)
+					{
+						var statTotal = roll2 + roll1 + roll4;
+					}
+					if(roll4 < roll2 && roll4 < roll3 && roll4 < roll1)
+					{
+						var statTotal = roll2 + roll3 + roll1;
+					}
+					messageToSend = messageToSend + statTotal + "\n";
+
+				}
+				bot.sendMessage({
+					to: channelID,
+                	    		message: messageToSend;
+				});
+				remainder = '';
+			}
+
 			while(remainder.length > 0) {
 				var beginning = remainder.substring(0, 1);
 				switch(beginning){
