@@ -24,6 +24,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var args = message.substring(1).split(' ');
         var cmd = message.substring(1, 5);
 	var remainder = message.substring(5);
+	var statsRoll = false;
         args = args.splice(1);
        
 	switch(cmd) {
@@ -39,6 +40,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
 			if(remainder.substring(1, 6) == 'stats')
 			{
+				var statsRoll = true;
 				var messageToSend = "Stats:\n";
 				for(i = 0; i < 6; i++)
 				{
@@ -53,19 +55,19 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 					else if(i == 3) {messageToSend += "Int:";}
 					else if(i == 4) {messageToSend += "Wis:";}
 					else if(i == 5) {messageToSend += "Cha:";}
-					if(roll1 < roll2 && roll1 < roll3 && roll1 < roll4)
+					if(roll1 <= roll2 && roll1 <= roll3 && roll1 <= roll4)
 					{
 						var statTotal = roll2 + roll3 + roll4;
 					}
-					if(roll2 < roll1 && roll2 < roll3 && roll2 < roll4)
+					else if(roll2 <= roll1 && roll2 <= roll3 && roll2 <= roll4)
 					{
 						var statTotal = roll1 + roll3 + roll4;
 					}
-					if(roll3 < roll2 && roll3 < roll1 && roll3 < roll4)
+					else if(roll3 <= roll2 && roll3 <= roll1 && roll3 <= roll4)
 					{
 						var statTotal = roll2 + roll1 + roll4;
 					}
-					if(roll4 < roll2 && roll4 < roll3 && roll4 < roll1)
+					else if(roll4 <= roll2 && roll4 <= roll3 && roll4 <= roll1)
 					{
 						var statTotal = roll2 + roll3 + roll1;
 					}
@@ -341,7 +343,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 			}
 
 			//then, we do it
-			if(!error)
+			if(!error && !statsRoll)
 			{
 				bot.sendMessage({
 				    to: channelID,
