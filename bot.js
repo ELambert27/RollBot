@@ -40,7 +40,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 			if(remainder.substring(1, 6) == 'stats')
 			{
 				var messageToSend = "Stats:\n";
-				for(int i = 0; i < 6; i++)
+				for(i = 0; i < 6; i++)
 				{
 					var roll1 = Math.ceil(Math.random() * 6);
 					var roll2 = Math.ceil(Math.random() * 6);
@@ -74,7 +74,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 				}
 				bot.sendMessage({
 					to: channelID,
-                	    		message: messageToSend;
+                	    		message: messageToSend
 				});
 				remainder = '';
 			}
